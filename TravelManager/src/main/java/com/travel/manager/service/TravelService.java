@@ -17,7 +17,7 @@ public class TravelService {
 		return travelRepository.findAll();
 	}
 	
-	public Travel salvar(TravelDto travelDto) {
+	public Travel save(TravelDto travelDto) {
 
 		Travel travel = new Travel();
 
