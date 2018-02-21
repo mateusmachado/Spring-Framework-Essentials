@@ -28,7 +28,7 @@ public class TravelManagerController {
 
 	@Autowired
 	private TravelService travelService;
-
+	
 	@PostMapping(path = "/new")
 	public ResponseEntity<Response<Travel>> register(@Valid @RequestBody TravelDto travelDto, BindingResult result) {
 		Response<Travel> response = new Response<Travel>();
