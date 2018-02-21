@@ -46,7 +46,7 @@ public class TravelManagerController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Travel>> listar() {
+	public ResponseEntity<List<Travel>> list() {
 		List<Travel> travels = TravelService.list();
 		return ResponseEntity.status(HttpStatus.OK).body(travels);
 	}

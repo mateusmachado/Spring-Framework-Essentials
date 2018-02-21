@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 import com.travel.manager.dto.TravelDto;
 import com.travel.manager.entities.Travel;
 import com.travel.manager.repository.TravelRepository;
+import com.travel.manager.service.exceptions.TravelServiceException;
 
 @Service
 public class TravelService {
 
 	@Autowired
-	private TravelRepository travelRepository;
+	private static TravelRepository travelRepository;
 	
-	public List<Travel> list(){
+	public static List<Travel> list(){
 		return travelRepository.findAll();
 	}
 	
