@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.travel.manager.dto.TravelDto;
 import com.travel.manager.entities.Travel;
+import com.travel.manager.repository.TravelRepository;
 
 @Service
 public class TravelService {
@@ -21,10 +23,10 @@ public class TravelService {
 
 		Travel travel = new Travel();
 
-		travel.setLocalDeDestino(travelDto.getLocalDeDestino());
-		travel.setDataPartida(travelDto.getDataPartida());
-		travel.setDataRetorno(travelDto.getDataRetorno());
-		travel.setAcompanhante(travelDto.getAcompanhante());
+		travel.setLocalDestination(travelDto.getLocalDestination());
+		travel.setDepartureDate(travelDto.getDepartureDate());
+		travel.setDateReturn(travelDto.getDateReturn());
+		travel.setCompanion(travelDto.getCompanion());
 		return travelRepository.save(travel);
 	}
 	

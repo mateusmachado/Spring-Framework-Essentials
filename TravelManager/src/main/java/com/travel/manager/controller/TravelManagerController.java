@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.travel.manager.dto.TravelDto;
 import com.travel.manager.entities.Travel;
+import com.travel.manager.responses.Response;
+import com.travel.manager.service.TravelService;
 
 @RestController
 @RequestMapping("/api/travels")
@@ -44,7 +47,7 @@ public class TravelManagerController {
 
 	@GetMapping
 	public ResponseEntity<List<Travel>> listar() {
-		List<Travel> viagens = TravelService.list();
+		List<Travel> travels = TravelService.list();
 		return ResponseEntity.status(HttpStatus.OK).body(travels);
 	}
 

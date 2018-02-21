@@ -36,11 +36,11 @@ public class TravelDto implements Serializable {
 
 	@NotNull(message = "Place of destination is a mandatory information")
 	@Length(min = 3, max = 40, message = "Target Location must be between 3 and 40 characters")
-	public String getLocalDeDestino() {
+	public String getLocalDestination() {
 		return destination;
 	}
 
-	public void setLocalDeDestino(String destination) {
+	public void setLocalDestination(String destination) {
 		this.destination = destination;
 	}
 
