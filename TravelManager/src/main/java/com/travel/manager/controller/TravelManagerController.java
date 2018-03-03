@@ -2,6 +2,7 @@ package com.travel.manager.controller;
 
 import java.net.URI;
 import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,49 +14,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.montanha.gerenciador.dtos.ViagemDto;
-import com.montanha.gerenciador.entities.Viagem;
-import com.montanha.gerenciador.responses.Response;
-import com.montanha.gerenciador.services.ViagemServices;
+
+import com.travel.manager.dto.TravelDto;
+import com.travel.manager.entities.Travel;
+import com.travel.manager.responses.Response;
+import com.travel.manager.service.TravelService;
 
 @RestController
 @RequestMapping("/api/travels")
 public class TravelManagerController {
 
-    @Autowired
-    private TravelServices travelService;
+	@Autowired
+	private TravelService travelService;
+	
+	@PostMapping(path = "/new")
+	public ResponseEntity<Response<Travel>> register(@Valid @RequestBody TravelDto travelDto, BindingResult result) {
+		Response<Travel> response = new Response<Travel>();
 
-    @PostMapping(path = "/new")
-    public ResponseEntity<Response<Viagem>> cadastrar(@Valid @RequestBody ViagemDto viagemDto, BindingResult result) {
-        Response<Viagem> response = new Response<Viagem>();
+		if (result.hasErrors()) {
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
 
-        if (result.hasErrors()) {
-            result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
-            return ResponseEntity.badRequest().body(response);
-        }
+		Travel travelSave = this.travelService.save(travelDto);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(travelDto.getId())
+				.toUri();
+		response.setData(travelSave);
+		return ResponseEntity.created(location).body(response);
+	}
 
-        Viagem viagemSalva = this.viagemService.salvar(viagemDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(viagemDto.getId())
-                .toUri();
-        response.setData(viagemSalva);
-        return ResponseEntity.created(location).body(response);
-    }
+	@GetMapping
+	public ResponseEntity<List<Travel>> list() {
+		List<Travel> travels = TravelService.list();
+		return ResponseEntity.status(HttpStatus.OK).body(travels);
+	}
 
-    @GetMapping
-    public ResponseEntity<List<Viagem>> listar() {
-        List<Viagem> viagens = viagemService.listar();
-        return ResponseEntity.status(HttpStatus.OK).body(viagens);
-    }
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<Response<Travel>> find(@PathVariable("id") Long id) {
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Response<Viagem>> buscar(@PathVariable("id") Long id) {
+		Travel travel = travelService.find(id);
+		Response<Travel> response = new Response<Travel>();
+		response.setData(travel);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 
-        Viagem viagem = viagemService.buscar(id);
-        Response<Viagem> response = new Response<Viagem>();
-        response.setData(viagem);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 }
