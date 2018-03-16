@@ -1,4 +1,4 @@
-package com.springfox;
+package com.kafka;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
